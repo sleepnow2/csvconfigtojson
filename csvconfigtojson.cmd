@@ -1,3 +1,3 @@
 @echo off
 
-python "%~dp0CSVConfigToJson.py"
+python "%~dp0CSVConfigToJson.py" %*
