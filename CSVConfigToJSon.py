@@ -117,7 +117,7 @@ def getAllCSVs(path:Path)-> List[Path]:
     if os.path.isfile(path):
         return [path]
     else:
-        files = list(zip(*os.walk(path)))[2][0]
+        files = [f.name for f in os.scandir(path) if f.is_file()]
         return [os.path.join(path,f) for f in files if f.endswith(".csv")]
 
 def handleHelp() -> None:
