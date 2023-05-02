@@ -43,7 +43,7 @@ class Config:
         self.bitMap = removeWhiteSpace(BitMap)
         self.convFact = removeWhiteSpace(ConvFact)
         self.convOffset = removeWhiteSpace(ConvOffset)
-        self.name = removeWhiteSpace(name)
+        self.name = name
         # remove a very specific whitespace
         self.streamID=StreamID.removesuffix('\n')
 
