@@ -32,7 +32,8 @@ class Config:
         def removeWhiteSpace(S: str)->str:
             return S.replace(" ","").replace("\t","").replace("\n","").replace("\r","")
         
-        selected, UnitID, RegType, RegOffset, DataType, BitMap, _, name, ConvFact, ConvOffset, StreamID = line.split(',')
+        
+        selected, UnitID, RegType, RegOffset, DataType, BitMap, _, name, ConvFact, ConvOffset, StreamID = line.split(',')[0:11]
 
         # remove whitespace ONLY ON SELECT ITEMS
         self.selected = removeWhiteSpace(selected)
@@ -73,18 +74,23 @@ class Config:
         self.bitMap = bitmap + self.bitMap
 
     def __str__(self):
-        return "\t{" f"""
+        res = "\t{" f"""
 \t\t"Name": "{self.name}",
 \t\t"StreamId": "{self.streamID if self.bitMap == "null" else (self.streamID.split("_")[0]+"_OFFSET_"+self.regOffset+"_"+self.regType)}",
 \t\t"Selected": {self.selected},
 \t\t"UnitId": {self.unitID},
+\t\t"DeviceID": "Modbus1",
+\t\t"ScheduleID": "1",
 \t\t"DataTypeCode": {self.dataType},
 \t\t"RegisterType": "{self.regType}",
-\t\t"RegisterOffset": {self.regOffset},
+\t\t"RegisterOffset": {self.regOffset}"""
+        if self.regType == "Input16" or self.regType == "Holding16":
+            res += f""",
 \t\t"ConversionFactor": {self.convFact},
 \t\t"ConversionOffset": {self.convOffset},
-\t\t"BitMap": "{self.bitMap}"
-\t""" "}"
+\t\t"BitMap": "{self.bitMap}" """
+        res += "\n\t}"
+        return res
 
 
 """
